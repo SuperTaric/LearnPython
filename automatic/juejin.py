@@ -11,7 +11,13 @@ config = configparser.ConfigParser()
 config.read("./config.ini")
 juejin_config = config["juejin"]
 
-# 由于特殊符号的问题暂不放入config文件中
+"""
+由于特殊符号的问题暂不放入config文件中 
+https://juejin.cn/user/center/signin?avatar_menu 页面
+check_in_rules 接口可以拿到 _signature, uuid, aid
+随便找一个包含 cookie 的接口就能拿到 cookie
+可以拿到
+"""
 _signature = ''
 cookie = ''
 uuid = juejin_config["uuid"]
