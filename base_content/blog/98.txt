@@ -1,0 +1,4 @@
+$ django-admin startproject mysite98
+$ cd mysite98
+$ python3 manage.py startapp myapp98
+$ python3 manage.py runserver 0.0.0.0:8000

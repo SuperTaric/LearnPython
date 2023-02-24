@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Learning Log</title>
+  </head>
+
+  <body>
+    {% block content %} {% if blog_list %} {% for blog in blog_list %}
+    <ul>
+      <h2>{{blog.title}}</h2>
+      <h3>{{blog.pub_date}}</h3>
+      <h4>{{blog.data}}</h4>
+    </ul>
+    {% endfor %} {% endif %} {% endblock content %}
+  </body>
+</html>
