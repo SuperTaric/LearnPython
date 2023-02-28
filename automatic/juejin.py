@@ -78,8 +78,8 @@ def run():
         with h:
             li(sing_text)
             li("抽奖成功")
+            li("幸运值：" + str(total_lucky_value))
             li("中奖名称：" + lottery_name)
-            li("幸运值：" + total_lucky_value)
         d.add(h)
         d.add(i)
         print(d)
