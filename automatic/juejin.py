@@ -5,6 +5,7 @@ import os
 import requests
 import configparser
 import time
+import schedule
 from emailFun import send_email
 from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
@@ -101,5 +102,14 @@ def log(text):
     with open('./log.txt', mode='a') as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + ': ' + text + '\n')
 
-if __name__ == "__main__":
+def job():
+    print('job start')
     run()
+
+# schedule.every().day.at("09:00").do(job)
+schedule.every(10).seconds.do(job)
+
+if __name__ == "__main__":
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
