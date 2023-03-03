@@ -106,10 +106,11 @@ def job():
     print('job start')
     run()
 
-# schedule.every().day.at("09:00").do(job)
-schedule.every(10).seconds.do(job)
+schedule.every().day.at("09:00").do(job)
+# schedule.every(10).seconds.do(job)
 
 if __name__ == "__main__":
+    print('juejin.py start')
     while True:
         schedule.run_pending()
         time.sleep(1)

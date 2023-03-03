@@ -72,3 +72,9 @@ python3 manage.py migrate
 # 创建超级用户
 python3 manage.py createsuperuser
 ```
+
+- 移动文件到服务器
+
+```shell
+scp -r /Users/titanmatrix/Desktop/learn/pLearn/.env root@101.200.000.000:/home/project
+```
