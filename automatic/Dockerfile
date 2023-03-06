@@ -1,4 +1,5 @@
 FROM python:3.10.10
+ENV TZ=Asia/Shanghai
 ENV PATH /usr/local/bin:$PATH
 ADD . /automatic
 WORKDIR /automatic
