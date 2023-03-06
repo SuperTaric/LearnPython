@@ -67,39 +67,38 @@ def raffle():
 def run():
     signIn()
     time.sleep(1)
-    # data = raffle()
-    # time.sleep(1)
+    data = raffle()
+    time.sleep(1)
     sender = os.environ.get('MAIL_USER')
     receivers = [os.environ.get('MAIL_USER')]
-    send_email(sender, receivers, '掘金签到抽奖', '123')
-    # if is_raffle_success == 1:
-    #     lottery_name = data.get('lottery_name')
-    #     lottery_image = data.get('lottery_image')
-    #     total_lucky_value = data.get('total_lucky_value')
-    #     sing_text = f"签到{ is_signIn_success and '成功' or '失败:' + signIn_error_msg }"
-    #     d = div()
-    #     i = img(src=lottery_image)
-    #     h = ul()
-    #     with h:
-    #         li(sing_text)
-    #         li("抽奖成功")
-    #         li("幸运值：" + str(total_lucky_value))
-    #         li("中奖名称：" + lottery_name)
-    #     d.add(h)
-    #     d.add(i)
-    #     print(d)
-    #     send_email(sender, receivers, '掘金签到抽奖', str(d))
-    # else:
-    #     h = ul()
-    #     sing_text = f"签到{ is_signIn_success and '成功' or '失败:' + signIn_error_msg }"
-    #     raffle_text = f"抽奖失败: {raffle_error_msg}"
-    #     d = div()
-    #     with h:
-    #         li(sing_text)
-    #         li(raffle_text)
-    #     d.add(h)
-    #     print(d)
-    #     send_email(sender, receivers, '掘金签到抽奖', str(d))
+    if is_raffle_success == 1:
+        lottery_name = data.get('lottery_name')
+        lottery_image = data.get('lottery_image')
+        total_lucky_value = data.get('total_lucky_value')
+        sing_text = f"签到{ is_signIn_success and '成功' or '失败:' + signIn_error_msg }"
+        d = div()
+        i = img(src=lottery_image)
+        h = ul()
+        with h:
+            li(sing_text)
+            li("抽奖成功")
+            li("幸运值：" + str(total_lucky_value))
+            li("中奖名称：" + lottery_name)
+        d.add(h)
+        d.add(i)
+        print(d)
+        send_email(sender, receivers, '掘金签到抽奖', str(d))
+    else:
+        h = ul()
+        sing_text = f"签到{ is_signIn_success and '成功' or '失败:' + signIn_error_msg }"
+        raffle_text = f"抽奖失败: {raffle_error_msg}"
+        d = div()
+        with h:
+            li(sing_text)
+            li(raffle_text)
+        d.add(h)
+        print(d)
+        send_email(sender, receivers, '掘金签到抽奖', str(d))
 
 def job():
     log('job start')
