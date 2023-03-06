@@ -1,9 +1,10 @@
 import smtplib
 import os
+from log import log
 from email.mime.text import MIMEText
 from email.header import Header
 from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
+load_dotenv(find_dotenv('.env'))
 
 # SMTP 服务
 mail_host = "smtp.163.com"
@@ -20,6 +21,6 @@ def send_email(sender, receivers, title, content):
         smtpObj.connect(mail_host, 25)
         smtpObj.login(mail_user, mail_pass)  
         smtpObj.sendmail(sender, receivers, message.as_string())
-        print("邮件发送成功")
+        log("邮件发送成功")
     except smtplib.SMTPException as err:
-        print(f"Error: 无法发送邮件: {err}")
+        log(f"Error: 无法发送邮件: {err}")
