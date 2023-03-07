@@ -97,11 +97,36 @@ class BST():
             arr.append(n.val)
         return arr
     
+    def find_max_node(self, node):
+        """
+        查找左子树中最大的节点
+        """
+        n = node
+        if n == None:
+            return None
+        while n.right != None:
+            n = n.right
+        return n
+    
+    def find_min_node(self, node):
+        """
+        查找右子树中最小的节点
+        """
+        n = node
+        if n == None:
+            return None
+        while n.left != None:
+            n = n.left
+        return n
+
 if __name__ == '__main__':
     bs_tree = BST(16)
     bs_tree.insert(9)
     bs_tree.insert(24)
+    bs_tree.insert(12)
+    bs_tree.insert(6)
     bs_tree.insert(20)
+    bs_tree.insert(30)
     pre_res = bs_tree.pre_tree_walk(bs_tree.root_node, [])
     mid_res = bs_tree.mid_tree_walk(bs_tree.root_node, [])
     next_res = bs_tree.next_tree_walk(bs_tree.root_node, [])
