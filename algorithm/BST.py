@@ -1,3 +1,4 @@
+import copy
 """
 二叉搜索树：
 1、若左子树非空，则左子树上的所有节点的值均小于根节点的值.
@@ -118,6 +119,72 @@ class BST():
         while n.left != None:
             n = n.left
         return n
+    
+    def is_leaf(self, node: TreeNode):
+        return True if node.left == None and node.right == None else False
+    
+    def remove(self, node: TreeNode):
+        """
+        删除节点
+        1、叶子节点直接删除
+        2、先查找右子树最小值，若没有找左子树最大值
+            （1）、找到的节点是直接子树，直接子节点替换父节点
+            （2）、找到的节点不是直接子树，先替换，然后递归执行子节点删除操作
+        """
+        if self.is_leaf(node):
+            self.remove_leaf(node)
+        else:
+            replace_node = self.find_min_node(node.right) if node.right != None else self.find_max_node(node.left)
+            replace_node_copy = copy.copy(replace_node)
+
+            if node == replace_node.parent:
+                if node.val < node.parent.val:
+                    node.parent.left = replace_node
+                else:
+                    node.parent.right = replace_node
+                replace_node.parent = node.parent
+
+                # 因为先从右边开始查的继承关系节点，所以不用管右边子树
+                if replace_node != node.left:
+                    replace_node.left = node.left
+                    node.left.parent = replace_node
+            else:
+                # 连接删除节点的父节点和当前节点
+                if node.parent != None:
+                    if node.val < node.parent.val:
+                        node.parent.left = replace_node
+                    else:
+                        node.parent.right = replace_node
+                else:
+                    self.root_node = replace_node
+                replace_node.parent = node.parent
+
+                # 连接删除节点的子树和当前节点
+                replace_node.left = node.left
+                replace_node.right = node.right
+                # 左右子树都没有的话会前边直接走逻辑，这里只会走一个if
+                if node.left != None:
+                    node.left.parent = replace_node
+                if node.right != None:
+                    node.right.parent = replace_node
+                
+                self.remove(replace_node_copy)
+
+    def remove_leaf(self, node: TreeNode):
+        """
+        删除叶子节点
+        """
+        cur_parent = node.parent
+        # 将节点和父节点关联删除即删除了该节点
+        if cur_parent != None:
+            if node.val < cur_parent.val:
+                cur_parent.left = None
+            else:
+                cur_parent.right = None
+        else:
+            # 删除的是根节点
+            self.root_node = None
+
 
 if __name__ == '__main__':
     bs_tree = BST(16)
