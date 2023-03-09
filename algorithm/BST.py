@@ -33,7 +33,7 @@ class BST():
             return
         p = TreeNode(x)
         if self.root_node == None:
-            self.root_nooe = p
+            self.root_node = p
         else:
             cur = self.root_node
             pre = None
