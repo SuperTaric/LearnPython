@@ -19,7 +19,7 @@ class TreeNode():
 
 class ScapegoatTree():
     def __init__(self, alpha = 0.75):
-        self.root = None
+        self.root_node = None
         self.alpha = alpha
         self.nodes = []
 
@@ -34,17 +34,17 @@ class ScapegoatTree():
             node.right.parent = node
         node.size += 1
         node.f_size += 1
-        self.check(self.root, node)
+        self.check(self.root_node, node)
         return node
 
     def insert(self, val):
         """
         插入：和BST一样，只是在最后加一个判断树是否平衡
         """
-        if self.root is None:
-            self.root = TreeNode(val)
+        if self.root_node is None:
+            self.root_node = TreeNode(val)
             return
-        self.root = self._insert_helper(self.root, val)
+        self.root_node = self._insert_helper(self.root_node, val)
 
     def remove(self, val):
         """
@@ -57,7 +57,7 @@ class ScapegoatTree():
             return False
         r_node.exits = False
         r_node.f_size -= 1
-        self.check(self.root, r_node)
+        self.check(self.root_node, r_node)
             
 
     def check(self, node: TreeNode, end_node: TreeNode):
@@ -72,7 +72,7 @@ class ScapegoatTree():
             return
         if self.size(node.left) > self.size(node) * self.alpha or self.size(node.right) > self.size(node) * self.alpha or self.size(node) - node.f_size > self.size(node) * 0.3 :
             self.rebuild(node)
-            self.update(self.root, node)
+            self.update(self.root_node, node)
         self.check(node.right, end_node) if node.val < end_node.val else self.check(node.left, end_node)
     
     def ldr(self, node: TreeNode):
@@ -99,7 +99,7 @@ class ScapegoatTree():
             mid -= 1
         node: TreeNode = self.nodes[mid]
         if parent is None:
-            self.root = node
+            self.root_node = node
         else:
             node.parent = parent
         node.left = self.lift(start, mid - 1, node)
@@ -138,7 +138,7 @@ class ScapegoatTree():
         s_node.size = self.size(s_node.left) + self.size(s_node.right) + 1
 
     def find(self, val):
-        node = self.root
+        node = self.root_node
         while node is not None:
             if val == node.val:
                 return node
@@ -158,7 +158,7 @@ class ScapegoatTree():
         return node.f_size
     
     def get_rank(self, val):
-        node = self.root
+        node = self.root_node
         rank = 1
         while node:
             if node.val >= val:
@@ -169,7 +169,7 @@ class ScapegoatTree():
         return rank
 
     def get_num(self, rank: int):
-        node = self.root
+        node = self.root_node
         while node:
             if node.exits and self.f_size(node.left) + int(node.exits) == rank:
                 break
@@ -180,22 +180,31 @@ class ScapegoatTree():
                 node = node.right
         return node.val
     
+def print2DTree(root, space = 0, LEVEL_SPACE = 6):
+    if root == None: return
+    space += LEVEL_SPACE
+    print2DTree(root.right, space)
+    for i in range(LEVEL_SPACE, space): print(end = " ")  
+    print(str(root.val) + "-" + str(root.size) + " <")
+    print2DTree(root.left, space)
+    
 if __name__ == '__main__':
-    bs_tree = ScapegoatTree(16)
-    bs_tree.insert(9)
-    bs_tree.insert(24)
-    bs_tree.insert(12)
-    bs_tree.insert(6)
-    bs_tree.insert(20)
-    bs_tree.insert(30)
-    pre_res = bs_tree.ldr(bs_tree.root)
-    print([node.val for node in bs_tree.nodes])
-    bs_tree.nodes.clear()
-    remove_node = bs_tree.find(9)
-    bs_tree.remove(9)
-    pre_res = bs_tree.ldr(bs_tree.root)
-    print([node.val for node in bs_tree.nodes])
-    print(bs_tree.get_rank(6))
-    print(bs_tree.get_rank(24))
-    print(bs_tree.get_num(2))
-    print(bs_tree.get_num(4))
+    sg_tree = ScapegoatTree(16)
+    sg_tree.insert(9)
+    sg_tree.insert(24)
+    sg_tree.insert(12)
+    sg_tree.insert(6)
+    sg_tree.insert(20)
+    sg_tree.insert(30)
+    pre_res = sg_tree.ldr(sg_tree.root_node)
+    print([node.val for node in sg_tree.nodes])
+    sg_tree.nodes.clear()
+    remove_node = sg_tree.find(9)
+    sg_tree.remove(9)
+    pre_res = sg_tree.ldr(sg_tree.root_node)
+    print([node.val for node in sg_tree.nodes])
+    print(sg_tree.get_rank(6))
+    print(sg_tree.get_rank(24))
+    print(sg_tree.get_num(2))
+    print(sg_tree.get_num(4))
+    print2DTree(sg_tree.root_node)
