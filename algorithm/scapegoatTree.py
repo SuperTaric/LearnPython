@@ -105,7 +105,7 @@ class ScapegoatTree():
         node.left = self.lift(start, mid - 1, node)
         node.right = self.lift(mid + 1, end, node)
         node.size = self.size(node.left) + self.size(node.right) + 1
-        node.f_size = self.size(node.left) + self.size(node.right) + 1
+        node.f_size = self.f_size(node.left) + self.f_size(node.right) + 1
         return node
 
     def rebuild(self, node: TreeNode):
@@ -123,7 +123,7 @@ class ScapegoatTree():
         else:
             node.parent.right = new_node
         node.parent.size = self.size(node.parent.left) + self.size(node.parent.right) + 1
-        node.parent.f_size = self.size(node.parent.left) + self.size(node.parent.right) + 1
+        node.parent.f_size = self.f_size(node.parent.left) + self.f_size(node.parent.right) + 1
 
     def update(self, s_node: TreeNode, e_node: TreeNode):
         """
@@ -136,7 +136,7 @@ class ScapegoatTree():
         else:
             self.update(s_node.right, e_node)
         s_node.size = self.size(s_node.left) + self.size(s_node.right) + 1
-        
+
     def find(self, val):
         node = self.root
         while node is not None:
@@ -152,3 +152,50 @@ class ScapegoatTree():
             return 0
         return node.size
     
+    def f_size(self, node):
+        if node is None:
+            return 0
+        return node.f_size
+    
+    def get_rank(self, val):
+        node = self.root
+        rank = 1
+        while node:
+            if node.val >= val:
+                node = node.left
+            else:
+                rank += self.f_size(node.left) + int(node.exits)
+                node = node.right
+        return rank
+
+    def get_num(self, rank: int):
+        node = self.root
+        while node:
+            if node.exits and self.f_size(node.left) + int(node.exits) == rank:
+                break
+            elif self.f_size(node.left) >= rank:
+                node = node.left
+            else:
+                rank -= self.f_size(node.left) + int(node.exits)
+                node = node.right
+        return node.val
+    
+if __name__ == '__main__':
+    bs_tree = ScapegoatTree(16)
+    bs_tree.insert(9)
+    bs_tree.insert(24)
+    bs_tree.insert(12)
+    bs_tree.insert(6)
+    bs_tree.insert(20)
+    bs_tree.insert(30)
+    pre_res = bs_tree.ldr(bs_tree.root)
+    print([node.val for node in bs_tree.nodes])
+    bs_tree.nodes.clear()
+    remove_node = bs_tree.find(9)
+    bs_tree.remove(9)
+    pre_res = bs_tree.ldr(bs_tree.root)
+    print([node.val for node in bs_tree.nodes])
+    print(bs_tree.get_rank(6))
+    print(bs_tree.get_rank(24))
+    print(bs_tree.get_num(2))
+    print(bs_tree.get_num(4))
