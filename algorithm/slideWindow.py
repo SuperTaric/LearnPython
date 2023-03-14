@@ -24,3 +24,30 @@ def minSubArrayLength(target, nums):
             left += 1
         right += 1
     return min_length
+
+# 30.串联所有单词的子串
+def findSubstring(s, words):
+    from collections import Counter
+    if not s or not words or not len(words): return []
+    wl  = len(words[0])
+    wn = len(words)
+    n = len(s)
+    words = Counter(words)
+    res = []
+    for i in range(0, wl):
+        cur = 0
+        left = 0
+        right = 0
+        cur_c = Counter()
+        while right + wl <= n:
+            w = s[right : right + wl]
+            right += wl
+            cur_c[w] += 1
+            cur -= 1
+            while cur_c[w] > words[w]:
+                left_w = s[left : left + wl]
+                left += wl
+                cur_c[left_w] -= 1
+                cur -= 1
+            if cur == wn: res.append(left)
+    return res
