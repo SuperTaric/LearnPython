@@ -36,14 +36,14 @@ def findSubstring(s, words):
     res = []
     for i in range(0, wl):
         cur = 0
-        left = 0
-        right = 0
+        left = i
+        right = i
         cur_c = Counter()
         while right + wl <= n:
             w = s[right : right + wl]
             right += wl
             cur_c[w] += 1
-            cur -= 1
+            cur += 1
             while cur_c[w] > words[w]:
                 left_w = s[left : left + wl]
                 left += wl
