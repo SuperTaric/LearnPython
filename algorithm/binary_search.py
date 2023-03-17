@@ -3,7 +3,7 @@
 """
 
 def myPow(x: float, n: int) -> float:
-    if x == 0.0 return 0.0
+    if x == 0.0: return 0.0
     res = 1
     if n < 0: x, n = 1 / x, -n
     while n:
@@ -28,3 +28,19 @@ def mySqrt(x: int) -> int:
         else:
             right = mid - 1
     return res
+
+"""
+704.二分查找
+"""
+
+def search(nums: list[int], target: int) -> int:
+        l = 0
+        r = len(nums) - 1
+        while (l <= r):
+            mid = (l + r) // 2
+            if nums[mid] == target:
+                return mid
+            elif target <= nums[mid]:
+                r = mid - 1
+            else: l = mid + 1
+        return -1
