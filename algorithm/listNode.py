@@ -6,7 +6,7 @@
 def getKthFromEnd(head, k):
     fast, slow = head, head
     while fast and k > 0:
-        fast, k = fase.next, k -1
+        fast, k = fast.next, k -1
     while fast:
         fast, slow = fast.next, slow.next
     return slow
