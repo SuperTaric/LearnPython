@@ -20,10 +20,10 @@ load_dotenv(find_dotenv('.env'))
 
 uuid = juejin_config["uuid"]
 aid = juejin_config["aid"]
-_signature = os.environ.get('_SIGNATURE')
+_msToken = os.environ.get('_MSTOKEN')
 cookie = os.environ.get('COOKIE')
 
-signUrl = f'https://api.juejin.cn/growth_api/v1/check_in?aid={aid}&uuid={uuid}&_signature={_signature}&spider=0'
+signUrl = f'https://api.juejin.cn/growth_api/v1/check_in?aid={aid}&uuid={uuid}&msToken={_msToken}&spider=0'
 raffleUrl = f'https://api.juejin.cn/growth_api/v1/lottery/draw?aid={aid}&uuid={uuid}&spider=0'
 
 headers = {
